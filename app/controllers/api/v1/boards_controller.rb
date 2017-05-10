@@ -11,7 +11,11 @@ module Api
 
       def create
         @board = Board.create(board_params)
-        render json: @board, serialize: BoardSerializer
+        if @board.save
+          render json: @board, serialize: BoardSerializer
+        else
+          render_errors(@board.errors, 422)
+        end
       end
 
       def destroy
